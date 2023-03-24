@@ -1,76 +1,76 @@
 import React, { Component } from 'react';
-import { nanoid } from 'nanoid';
-import ContactForm from './ContactForm/ContactForm';
-import ContactList from './ContactList/ContactList';
-import Filter from './Filter/Filter';
-import styles from './app.module.css';
+import Searchbar from './Searchbar/Searchbar';
+import ImageGallery from './ImageGallery/ImageGallery';
+import Button from './Button/Button';
+import LoaderSpinner from './Loader/Loader.js';
+import Modal from './Modal/Modal';
 
 class App extends Component {
   state = {
-    contacts: [],
-    filter: '',
+    query: '',
+    images: [],
+    page: 1,
+    isLoading: false,
+    showModal: false,
+    selectedImage: null,
   };
 
-  componentDidMount() {
-    const storedContacts = localStorage.getItem('contacts');
-    if (storedContacts) {
-      this.setState({ contacts: JSON.parse(storedContacts) });
-    } else {
-      this.setState({
-        contacts: [],
-      });
+  componentDidUpdate(prevState) {
+    const { query, page } = this.state;
+    if (prevState.query !== query || prevState.page !== page) {
+      this.fetchImages();
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  handleSearch = query => {
+    this.setState({ query, images: [], page: 1 });
+  };
+
+  fetchImages = async () => {
+    const { query, page } = this.state;
+    const perPage = 12;
+    const apiKey = '32579471-afdc8e0303a1983f0362481fc';
+    const url = `https://pixabay.com/api/?key=${apiKey}&q=${query}&image_type=photo&pretty=true&page=${page}&per_page=${perPage}`;
+
+    this.setState({ isLoading: true });
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      this.setState(prevState => ({
+        images: [...prevState.images, ...data.hits],
+        isLoading: false,
+      }));
+    } catch (error) {
+      console.error('Failed to fetch images:', error);
+      this.setState({ isLoading: false });
     }
-  }
-
-  addContact = (name, number) => {
-    const contactExists = this.state.contacts.some(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    );
-
-    if (contactExists) {
-      alert(`${name} is already in contacts.`);
-      return;
-    }
-
-    const id = nanoid();
-    const contact = { id, name, number };
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, contact],
-    }));
   };
 
-  deleteContact = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
-  };
-  handleFilterChange = e => {
-    const { value } = e.target;
-    this.setState({ filter: value });
+  handleLoadMore = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
-  getFilteredContacts = () => {
-    const { contacts, filter } = this.state;
-    return contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
+  handleImageClick = image => {
+    this.setState({ showModal: true, selectedImage: image });
+  };
+
+  closeModal = () => {
+    this.setState({ showModal: false, selectedImage: null });
   };
 
   render() {
-    const { filter } = this.state;
-    const filteredContacts = this.getFilteredContacts();
-    return (
-      <div className={styles['container']}>
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContact} />
+    const { images, isLoading, showModal, selectedImage } = this.state;
 
-        <h2>Contacts</h2>
-        <Filter value={filter} onChange={this.handleFilterChange} />
-        <ContactList contacts={filteredContacts} onDeleteContact={this.deleteContact} />
+    return (
+      <div className="app">
+        <Searchbar onSubmit={this.handleSearch} />
+        <ImageGallery images={images} onImageClick={this.handleImageClick} />
+        {isLoading && <LoaderSpinner />}
+        {images.length > 0 && !isLoading && (
+          <Button onClick={this.handleLoadMore}>Load more</Button>
+        )}
+        {showModal && <Modal image={selectedImage} onClose={this.closeModal} />}
       </div>
     );
   }
