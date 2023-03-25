@@ -4,7 +4,6 @@ import css from './Modal.module.css';
 class Modal extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
-    console.log(this.props.image);
   }
 
   componentWillUnmount() {
