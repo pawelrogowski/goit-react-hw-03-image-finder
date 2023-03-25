@@ -15,9 +15,10 @@ class App extends Component {
     selectedImage: null,
   };
 
-  componentDidUpdate(prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const { query, page } = this.state;
     if (prevState.query !== query || prevState.page !== page) {
+      // Only fetch images if query or page has changed
       this.fetchImages();
     }
   }
@@ -36,13 +37,21 @@ class App extends Component {
 
     try {
       const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch images');
+      }
+
       const data = await response.json();
+      if (data.totalHits === 0) {
+        throw new Error('No images found for the given query');
+      }
+
       this.setState(prevState => ({
         images: [...prevState.images, ...data.hits],
         isLoading: false,
       }));
     } catch (error) {
-      console.error('Failed to fetch images:', error);
+      console.error(error.message);
       this.setState({ isLoading: false });
     }
   };

@@ -2,6 +2,21 @@ import React, { Component } from 'react';
 import css from './Modal.module.css';
 
 class Modal extends Component {
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
+    console.log(this.props.image);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown = event => {
+    if (event.code === 'Escape') {
+      this.props.onClose();
+    }
+  };
+
   handleClose = event => {
     if (event.target === event.currentTarget) {
       this.props.onClose();
