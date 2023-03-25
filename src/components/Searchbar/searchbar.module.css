@@ -30,8 +30,8 @@
   width: 48px;
   height: 48px;
   border: 0;
-  background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
-  background-size: 40%;
+  background-image: url('C:\Users\Administrator\Documents\Github\React GoIT\goit-react-hw-03-image-finder\src\Images\search-icon.svg');
+  background-size: 45%;
   background-repeat: no-repeat;
   background-position: center;
   opacity: 0.6;
@@ -57,13 +57,13 @@
 
 .SearchForm-input {
   display: inline-block;
-  width: 100%;
   font: inherit;
-  font-size: 20px;
+  font-size: 18px;
   border: none;
   outline: none;
   padding-left: 4px;
   padding-right: 4px;
+  height: 100%;
 }
 
 .SearchForm-input::placeholder {
