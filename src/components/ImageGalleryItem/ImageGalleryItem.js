@@ -14,6 +14,7 @@ class ImageGalleryItem extends Component {
           src={this.props.image.webformatURL}
           alt=""
           onClick={this.handleClick}
+          loading="lazy"
         />
       </li>
     );
