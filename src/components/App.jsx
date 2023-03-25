@@ -4,6 +4,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import LoaderSpinner from './Loader/Loader.js';
 import Modal from './Modal/Modal';
+import css from './App.module.css';
 
 class App extends Component {
   state = {
@@ -20,6 +21,7 @@ class App extends Component {
     if (prevState.query !== query || prevState.page !== page) {
       // Only fetch images if query or page has changed
       this.fetchImages();
+      this.scrollToBottom();
     }
   }
 
@@ -55,6 +57,9 @@ class App extends Component {
       this.setState({ isLoading: false });
     }
   };
+  scrollToBottom = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
 
   handleLoadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
@@ -72,7 +77,7 @@ class App extends Component {
     const { images, isLoading, showModal, selectedImage } = this.state;
 
     return (
-      <div className="app">
+      <div className={css.App}>
         <Searchbar onSubmit={this.handleSearch} />
         <ImageGallery images={images} onImageClick={this.handleImageClick} />
         {isLoading && <LoaderSpinner />}
