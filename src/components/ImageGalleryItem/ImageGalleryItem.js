@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import css from './ImageGalleryItem.module.css';
+import css from './ImageGalleryItem.module.css';
 
 class ImageGalleryItem extends Component {
   handleClick = () => {
@@ -8,8 +8,13 @@ class ImageGalleryItem extends Component {
 
   render() {
     return (
-      <li className="gallery-item">
-        <img src={this.props.image.webformatURL} alt="" onClick={this.handleClick} />
+      <li className={css.ImageGalleryItem}>
+        <img
+          className={css['ImageGalleryItem-image']}
+          src={this.props.image.webformatURL}
+          alt=""
+          onClick={this.handleClick}
+        />
       </li>
     );
   }

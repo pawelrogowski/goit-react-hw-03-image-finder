@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
-// import css from './image-gallery.module.css';
+import css from './image-gallery.module.css';
 
 class ImageGallery extends Component {
   render() {
     return (
-      <ul className="gallery">
+      <ul className={css.ImageGallery}>
         {this.props.images.map((image, index) => (
           <ImageGalleryItem
             key={`${image.id}_${index}`}
