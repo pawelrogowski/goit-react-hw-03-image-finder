@@ -16,7 +16,7 @@ class App extends Component {
     selectedImage: null,
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_, prevState) {
     const { query, page, images } = this.state;
     if (prevState.query !== query || prevState.page !== page) {
       // Only fetch images if query or page has changed
