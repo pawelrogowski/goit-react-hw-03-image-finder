@@ -9,7 +9,7 @@ class ImageGallery extends Component {
       <ul className={css.ImageGallery}>
         {this.props.images.map((image, index) => (
           <ImageGalleryItem
-            key={`${image.id}_${index}`}
+            key={`${index}_${image.id}`}
             image={image}
             onImageClick={this.props.onImageClick}
           />

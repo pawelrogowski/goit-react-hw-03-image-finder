@@ -4,7 +4,6 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import LoaderSpinner from './Loader/Loader.js';
 import Modal from './Modal/Modal';
-import PropTypes from 'prop-types';
 
 class App extends Component {
   state = {
@@ -14,6 +13,7 @@ class App extends Component {
     isLoading: false,
     showModal: false,
     selectedImage: null,
+    prevQuery: '',
   };
 
   componentDidUpdate(_, prevState) {
@@ -28,7 +28,10 @@ class App extends Component {
   }
 
   handleSearch = query => {
-    this.setState({ query, images: [], page: 1 });
+    // check if the query is different from the previous query
+    if (query !== this.state.prevQuery) {
+      this.setState({ query, images: [], page: 1, prevQuery: query });
+    }
   };
 
   fetchImages = async () => {
@@ -54,7 +57,7 @@ class App extends Component {
         images: [...prevState.images, ...data.hits],
       }));
 
-      // add 500ms delay to loader dissapearing so it doesn't just blink
+      // add delay to
       setTimeout(() => {
         this.setState({ isLoading: false });
       }, 500);
@@ -110,12 +113,4 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
-  query: PropTypes.string,
-  images: PropTypes.array,
-  page: PropTypes.number,
-  isLoading: PropTypes.bool,
-  showModal: PropTypes.bool,
-  selectedImage: PropTypes.object,
-};
 export default App;
