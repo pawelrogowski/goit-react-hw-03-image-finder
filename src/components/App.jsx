@@ -53,7 +53,7 @@ class App extends Component {
         images: [...prevState.images, ...data.hits],
       }));
 
-      // Introduce a delay of 2 seconds before setting isLoading to false
+      // add 500ms delay to loader dissapearing so it doesn't just blink
       setTimeout(() => {
         this.setState({ isLoading: false });
       }, 500);
