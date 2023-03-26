@@ -17,10 +17,12 @@ class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { query, page } = this.state;
+    const { query, page, images } = this.state;
     if (prevState.query !== query || prevState.page !== page) {
       // Only fetch images if query or page has changed
       this.fetchImages();
+    } else if (prevState.images.length !== images.length && prevState.images.length !== 0) {
+      // Scroll to bottom if images have been updated and it's not the initial load
       this.scrollToBottom();
     }
   }
@@ -50,15 +52,33 @@ class App extends Component {
 
       this.setState(prevState => ({
         images: [...prevState.images, ...data.hits],
-        isLoading: false,
       }));
+
+      // Introduce a delay of 2 seconds before setting isLoading to false
+      setTimeout(() => {
+        this.setState({ isLoading: false });
+      }, 500);
     } catch (error) {
       console.error(error.message);
       this.setState({ isLoading: false });
     }
   };
+
   scrollToBottom = () => {
-    window.scrollTo(0, document.body.scrollHeight);
+    let currentScrollPosition = window.scrollY;
+    let targetScrollPosition = document.body.scrollHeight - window.innerHeight;
+    let scrollStep = Math.round((targetScrollPosition - currentScrollPosition) / 20);
+
+    const smoothScroll = () => {
+      currentScrollPosition += scrollStep;
+      window.scrollTo(0, currentScrollPosition);
+
+      if (currentScrollPosition < targetScrollPosition) {
+        window.requestAnimationFrame(smoothScroll);
+      }
+    };
+
+    window.requestAnimationFrame(smoothScroll);
   };
 
   handleLoadMore = () => {
