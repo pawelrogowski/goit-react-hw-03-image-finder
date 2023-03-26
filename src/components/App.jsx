@@ -4,6 +4,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import LoaderSpinner from './Loader/Loader.js';
 import Modal from './Modal/Modal';
+import PropTypes from 'prop-types';
 
 class App extends Component {
   state = {
@@ -109,4 +110,12 @@ class App extends Component {
   }
 }
 
+App.propTypes = {
+  query: PropTypes.string,
+  images: PropTypes.array,
+  page: PropTypes.number,
+  isLoading: PropTypes.bool,
+  showModal: PropTypes.bool,
+  selectedImage: PropTypes.object,
+};
 export default App;
