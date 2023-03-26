@@ -4,7 +4,6 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import LoaderSpinner from './Loader/Loader.js';
 import Modal from './Modal/Modal';
-import css from './App.module.css';
 
 class App extends Component {
   state = {
@@ -97,7 +96,7 @@ class App extends Component {
     const { images, isLoading, showModal, selectedImage } = this.state;
 
     return (
-      <div className={css.App}>
+      <div className="App">
         <Searchbar onSubmit={this.handleSearch} />
         <ImageGallery images={images} onImageClick={this.handleImageClick} />
         {isLoading && <LoaderSpinner />}
