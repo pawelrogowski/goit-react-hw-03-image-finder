@@ -1,6 +1,6 @@
 <h1>goit-react-hw-03-image-finder</h1>
 
-[Click here to view the app](https://pawelrogowski.github.io/goit-react-hw-03-image-finder/)
+**[Active Page](https://pawelrogowski.github.io/goit-react-hw-03-image-finder/)**
 
 This is a simple image search engine that allows users to search for images and display them in a
 gallery. The app uses the Pixabay API to fetch images based on user input.
