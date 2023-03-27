@@ -12,7 +12,11 @@ gallery. The app uses the Pixabay API to fetch images based on user input.
 - Load more images witha "Load more" button
 - Display a larger version of the selected image in a modal
 - Lazy loading of images
-- Responsive design **Technologies Used**
+- Responsive design
+
+**Technologies Used**
+
+- ReactJS
 - React Pixabay API
 - CSS Modules
 - React Spinners
